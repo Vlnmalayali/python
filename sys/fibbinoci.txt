@@ -1,0 +1,15 @@
+def fibonacci(n):
+    fib_series = [0, 1]
+
+    for _ in range(2, n):
+        next_num = fib_series[-1] + fib_series[-2]
+        fib_series.append(next_num)
+
+    return fib_series[:n]
+
+# Get user input for the number of terms in the Fibonacci series
+num_terms = int(input("Enter the number of terms in the Fibonacci series: "))
+
+# Call the function and print the result
+result = fibonacci(num_terms)
+print("Fibonacci Series:", result)

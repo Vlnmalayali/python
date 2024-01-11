@@ -1,0 +1,16 @@
+def factorial(n):
+    if n == 0:
+        return 1
+    elif n < 0:
+        print("Factorial does not exist for negative numbers.")
+        return
+    else:
+        return n * factorial(n - 1)
+
+# Get user input for the number to calculate factorial
+try:
+    n = int(input("Enter a non-negative integer to calculate factorial: "))
+    result = factorial(n)
+    print(f"The factorial of {n} is: {result}")
+except ValueError:
+    print("Invalid input. Please enter a non-negative integer.")

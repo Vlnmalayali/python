@@ -1,0 +1,63 @@
+def calculate_grade(mark):
+   if mark >= 90:
+        return 'A+'
+    elif 80 <= mark < 90:
+        return 'A'
+    elif 70 <= mark < 80:
+        return 'B'
+    elif 60 <= mark < 70:
+        return 'C'
+    elif 50 <= mark < 60:
+        return 'D'
+    else:
+        return 'F'
+
+def calculate_sgp(grades, credit_weights):
+  total_points = 0
+    total_credits = 0
+
+    for grade, credits in zip(grades, credit_weights):
+        if grade == 'A+':
+            points = 10
+        elif grade == 'A':
+            points = 9
+        elif grade == 'B':
+            points = 8
+        elif grade == 'C':
+            points = 7
+        elif grade == 'D':
+            points = 6
+        else:
+            points = 0
+
+        total_points += points * credits
+        total_credits += credits
+
+    sgp = total_points / total_credits
+    return round(sgp, 2)
+
+
+num_subjects = int(input("Enter the number of subjects: "))
+    
+subjects = []
+grades = []
+credit_weights = []
+marks=[]
+
+for _ in range(num_subjects):
+    subject = input("Enter the subject name: ")
+    mark = float(input(f"Enter the marks for {subject}: "))
+    credit = int(input(f"Enter the credit weight for {subject}: "))
+
+    grade = calculate_grade(mark)
+    marks.append(mark)
+    subjects.append(subject)
+    grades.append(grade)
+    credit_weights.append(credit)
+
+print("\nSubject-wise Grades:")
+for subject, grade in zip(subjects, grades):
+    print(f"{subject}: {grade}")
+
+sgp = calculate_sgp(grades, credit_weights)
+print(f"\nSemester Grade Point (SGP): {sgp}")

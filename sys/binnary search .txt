@@ -1,0 +1,22 @@
+binnary search 
+us_list = list(map(int, input("Enter a sorted list : ").split()))
+pointed_num = int(input("Enter the number to search for: "))
+def binary_search(arr, target):
+ low, high = 0, len(arr) - 1
+ while low <= high:
+ mid = (low + high) // 2
+ mid_val = arr[mid]
+ if mid_val == target:
+ return mid
+ elif mid_val < target:
+ low = mid + 1
+ else:
+ high = mid - 1
+ return -1
+# Perform binary search
+result = binary_search(us_list, pointed_num)
+# Display the result
+if result != -1:
+ print(f"Element {pointed_num} found at index {result}.")
+else:
+ print(f"Element {pointed_num} not found in the list.")

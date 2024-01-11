@@ -1,0 +1,243 @@
+phone book
+
+# Phonebook dictionary to store name and phone number pairs
+phonebook = {}
+
+def add_contact():
+    """Add a contact to the phonebook based on user input."""
+    name = input("Enter the contact's name: ")
+    phone_number = input("Enter the contact's phone number: ")
+    phonebook[name] = phone_number
+    print(f"Contact {name} added with phone number {phone_number}.")
+
+def find_contact():
+    """Find and display the phone number of a contact based on user input."""
+    name = input("Enter the contact's name to find: ")
+    if name in phonebook:
+        print(f"The phone number for {name} is: {phonebook[name]}.")
+    else:
+        print(f"Contact {name} not found in the phonebook.")
+
+def display_phonebook():
+    """Display all contacts in the phonebook."""
+    if not phonebook:
+        print("Phonebook is empty.")
+    else:
+        print("Phonebook:")
+        for name, phone_number in phonebook.items():
+            print(f"{name}: {phone_number}")
+
+# User interaction loop
+while True:
+    print("\nOptions:")
+    print("1. Add Contact")
+    print("2. Find Contact")
+    print("3. Display Phonebook")
+    print("4. Exit")
+
+    choice = input("Enter your choice (1-4): ")
+
+    if choice == "1":
+        add_contact()
+    elif choice == "2":
+        find_contact()
+    elif choice == "3":
+        display_phonebook()
+    elif choice == "4":
+        print("Exiting. Goodbye!")
+        break
+    else:
+        print("Invalid choice. Please enter a number between 1 and 4.")
+------------------------------------------------------------------------------------
+2  a pyhton program to search for city name in the file and display the record number that contains the city name
+
+def search_city(file_path, city_name):
+    """Search for a city name in the file and display the record number."""
+    with open(file_path, 'r') as file:
+        for record_number, line in enumerate(file, start=1):
+            if city_name.lower() in line.lower():
+                print(f"Record {record_number}: {line.strip()}")
+
+def main():
+    file_path = 'record.txt'
+    city_name = input("Enter the city name to search: ")
+    search_city(file_path, city_name)
+    
+main()
+
+-----------------------------------------------------
+3-a python program to create a regex to retrive
+a)- all words that are having the lenght of at least 4 charecter
+b)-all words that are having the lenght of at 3 or 4or 5 character
+c)-only single digit number from a string
+d)-all words having 5 characters length
+e)-all words starting with a numeric digit
+ f)-all words starting with 'a' in a given string
+g)- the phonenumber of a person
+
+
+
+import re
+
+def retrieve_words_with_length_at_least_4(text):
+    """Retrieve all words with a length of at least 4 characters."""
+    pattern = r'\b\w{4,}\b'
+    return re.findall(pattern, text)
+
+def retrieve_words_with_length_3_to_5(text):
+    """Retrieve all words with a length of 3, 4, or 5 characters."""
+    pattern = r'\b\w{3,5}\b'
+    return re.findall(pattern, text)
+
+def retrieve_single_digit_numbers(text):
+    """Retrieve only single-digit numbers from a string."""
+    pattern = r'\b\d\b'
+    return re.findall(pattern, text)
+
+def retrieve_words_with_length_5(text):
+    """Retrieve all words with a length of 5 characters."""
+    pattern = r'\b\w{5}\b'
+    return re.findall(pattern, text)
+
+def retrieve_words_starting_with_numeric_digit(text):
+    """Retrieve all words starting with a numeric digit."""
+    pattern = r'\b\d\w*\b'
+    return re.findall(pattern, text)
+
+def retrieve_words_starting_with_a(text):
+    """Retrieve all words starting with 'a'."""
+    pattern = r'\ba\w*\b'
+    return re.findall(pattern, text)
+
+def retrieve_phone_number(text):
+    """Retrieve the phone number from a string."""
+    pattern = r'\b\d{3}-\d{3}-\d{4}\b'
+    return re.search(pattern, text).group() if re.search(pattern, text) else None
+
+# Example usage
+sample_text = """
+This is an example text. It contains words with different lengths,
+such as apple, orange, 12345, and phone number 555-123-4567.
+"""
+
+print(" \n\n output")
+
+print("\nWords with length at least 4:", retrieve_words_with_length_at_least_4(sample_text))
+print("Words with length 3, 4, or 5:", retrieve_words_with_length_3_to_5(sample_text))
+print("Single-digit numbers:", retrieve_single_digit_numbers(sample_text))
+print("Words with length 5:", retrieve_words_with_length_5(sample_text))
+print("Words starting with a numeric digit:", retrieve_words_starting_with_numeric_digit(sample_text))
+print("Words starting with 'a':", retrieve_words_starting_with_a(sample_text))
+print("Phone number:", retrieve_phone_number(sample_text))
+
+
+------------------------------------------------------------------------------------------------------------------------------------------
+
+4)-create a short code for A python program to use mmap& performing various operations on a binary file 
+a. Display all the entities
+b. Display phone number
+c. Modify an entry
+d. Exit
+
+
+import mmap
+import struct
+
+def display_all_entities(file_content):
+    """Display all entities in the binary file."""
+    num_entities = len(file_content) // struct.calcsize('256s10s')
+
+    print("All Entities:")
+    for i in range(num_entities):
+        start = i * struct.calcsize('256s10s')
+        end = start + struct.calcsize('256s10s')
+        entity_data = struct.unpack('256s10s', file_content[start:end])
+        name, phone_number = entity_data
+        print(f"{i+1}. Name: {name.decode().rstrip(chr(0))}, Phone Number: {phone_number.decode().rstrip(chr(0))}")
+
+def display_phone_number(file_content, index):
+    """Display the phone number of a specific entity."""
+    num_entities = len(file_content) // struct.calcsize('256s10s')
+
+    if 1 <= index <= num_entities:
+        start = (index - 1) * struct.calcsize('256s10s')
+        end = start + struct.calcsize('256s10s')
+        entity_data = struct.unpack('256s10s', file_content[start:end])
+        _, phone_number = entity_data
+        print(f"Phone Number: {phone_number.decode().rstrip(chr(0))}")
+    else:
+        print("Invalid index.")
+
+def modify_entry(file_content, index):
+    """Modify the phone number of a specific entity."""
+    num_entities = len(file_content) // struct.calcsize('256s10s')
+
+    if 1 <= index <= num_entities:
+        start = (index - 1) * struct.calcsize('256s10s')
+        end = start + struct.calcsize('256s10s')
+        entity_data = struct.unpack('256s10s', file_content[start:end])
+        name, _ = entity_data
+
+        new_phone_number = input("Enter the new phone number: ").encode('utf-8')[:10]
+        new_entity_data = struct.pack('256s10s', name, new_phone_number)
+
+        file_content[start:end] = new_entity_data
+        print("Entry modified successfully.")
+    else:
+        print("Invalid index.")
+
+# Open the binary file in read-write mode
+with open('phonebook.bin', 'r+b') as file:
+    # Memory-map the file
+    mmapped_file = mmap.mmap(file.fileno(), 0)
+
+    while True:
+        print("\nOptions:")
+        print("a. Display all entities")
+        print("b. Display phone number")
+        print("c. Modify an entry")
+        print("d. Exit")
+
+        choice = input("Enter your choice (a-d): ").lower()
+
+        if choice == 'a':
+            display_all_entities(mmapped_file)
+        elif choice == 'b':
+            index = int(input("Enter the index of the entity: "))
+            display_phone_number(mmapped_file, index)
+        elif choice == 'c':
+            index = int(input("Enter the index of the entity to modify: "))
+            modify_entry(mmapped_file, index)
+        elif choice == 'd':
+            print("Exiting. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please enter a valid option.")
+
+
+#create this phone book .bin in new file
+import struct
+
+# Sample data for the phonebook
+entries = [
+    ("John Doe", "123-456-7890"),
+    ("Jane Smith", "987-654-3210"),
+    ("Alice Johnson", "555-123-4567"),
+]
+
+# Open the binary file in write mode
+with open('phonebook.bin', 'wb') as file:
+    # Write each entry to the file
+    for name, phone_number in entries:
+        # Ensure names and phone numbers are encoded as bytes with fixed lengths
+        name_bytes = name.encode('utf-8')[:256]
+        phone_bytes = phone_number.encode('utf-8')[:10]
+
+        # Pack the data into a binary format
+        entry_data = struct.pack('256s10s', name_bytes, phone_bytes)
+
+        # Write the binary data to the file
+        file.write(entry_data)
+
+print("phonebook.bin created successfully.")
+

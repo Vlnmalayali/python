@@ -1,0 +1,16 @@
+linear search
+us_input = input("Enter a list \n ")
+num = [int(num) for num in us_input.split()]
+pointed_num = int(input("Enter the number to search:- "))
+def linear_search(arr, target):
+ for i in range(len(arr)):
+ if arr[i] == target:
+ return i
+ return -1
+# Perform linear search
+result = linear_search(num, pointed_num)
+# Display the result
+if result != -1:
+ print(f"The pointed number {pointed_num} is found at index {result}.")
+else:
+ print(f"The pointed number {pointed_num} is not found in the list.")

@@ -1,0 +1,14 @@
+def insertion_sort(arr):
+ for i in range(1, len(arr)):
+ key = arr[i]
+ j = i - 1
+ while j >= 0 and key < arr[j]:
+ arr[j + 1] = arr[j]
+ j -= 1
+ arr[j + 1] = key
+input_str = input("Enter elements : ")
+user_input = [int(x) for x in input_str.split()]
+# Applying insertion sort
+insertion_sort(user_input)
+# Displaying the sorted array
+print(" Insertion Sorted array \n", user_input)

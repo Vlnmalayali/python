@@ -1,0 +1,28 @@
+from array import array
+
+def find_largest_and_smallest(sequence):
+    if not sequence:
+        return None, None  # Handle empty sequences
+
+    largest = max(sequence)
+    smallest = min(sequence)
+
+    return largest, smallest
+
+# Example usage with list
+list_example = input("Enter elements for the list separated by spaces: ")
+list_example = list(map(int, list_example.split()))  # Fix variable name
+largest_list, smallest_list = find_largest_and_smallest(list_example)
+print(f"List: Largest = {largest_list}, Smallest = {smallest_list}")
+
+# Example usage with tuple
+tuple_example = input("Enter elements for the tuple separated by spaces: ")
+tuple_example = tuple(map(int, tuple_example.split()))  # Fix variable name
+largest_tuple, smallest_tuple = find_largest_and_smallest(tuple_example)
+print(f"Tuple: Largest = {largest_tuple}, Smallest = {smallest_tuple}")
+
+# Example usage with array
+array_example = input("Enter elements for the array separated by spaces: ")
+array_example = array('i', map(int, array_example.split()))  # Fix variable name
+largest_array, smallest_array = find_largest_and_smallest(array_example)
+print(f"Array: Largest = {largest_array}, Smallest = {smallest_array}")

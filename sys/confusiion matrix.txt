@@ -1,0 +1,31 @@
+import numpy as np
+from sklearn.metrics import confusion_matrix
+
+# Number of classes and instances per class
+num_classes = 5
+instances_per_class = 2000
+
+# Generate random predictions and true labels for the confusion matrix using NumPy
+random_predictions = np.random.choice(range(1, num_classes + 1), size=(1, num_classes * instances_per_class))
+
+# Reshape the random predictions to a 1D array
+random_predictions = random_predictions.reshape(-1)
+
+true_labels = [i % num_classes + 1 for i in range(num_classes * instances_per_class)]
+
+# Calculate the confusion matrix
+conf_matrix = confusion_matrix(true_labels, random_predictions)
+
+# Print the pairs of true labels and predicted labels
+
+# Print the confusion matrix as a 5x5 matrix
+print("\nConfusion Matrix:")
+conf_matrix_reshaped = conf_matrix.reshape(num_classes, num_classes)
+print(conf_matrix_reshaped)
+
+# Find the sum of the values inside the matrix
+matrix_sum = np.sum(conf_matrix_reshaped)
+print("\nSum of the Matrix:", matrix_sum)
+
+
+"'A confusion matrix is a table used in classification to evaluate the performance of a machine learning model. It allows us to understand how well the model is performing in terms of making correct or incorrect predictions"'

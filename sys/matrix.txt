@@ -1,0 +1,134 @@
+import numpy as np
+
+def matrix_input(rows, cols):
+    matrix = []
+    for i in range(rows):
+        row = []
+        for j in range(cols):
+            element = float(input(f"Enter element at position ({i+1},{j+1}): "))
+            row.append(element)
+        matrix.append(row)
+    return matrix
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(row)
+
+def add_matrices(matrix1, matrix2):
+    result = [[matrix1[i][j] + matrix2[i][j] for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
+    return result
+
+def subtract_matrices(matrix1, matrix2):
+    result = [[matrix1[i][j] - matrix2[i][j] for j in range(len(matrix1[0]))] for i in range(len(matrix1))]
+    return result
+
+def multiply_matrices(matrix1, matrix2):
+    result = [[sum(matrix1[i][k] * matrix2[k][j] for k in range(len(matrix2))) for j in range(len(matrix2[0]))] for i in range(len(matrix1))]
+    return result
+
+def transpose_matrix(matrix):
+    result = [[matrix[j][i] for j in range(len(matrix))] for i in range(len(matrix[0]))]
+    return result
+
+def matrix_inverse(matrix):
+    try:
+        inverse = np.linalg.inv(matrix)
+        return inverse.tolist()
+    except np.linalg.LinAlgError:
+        print("Matrix is not invertible.")
+        return None
+
+def divide_matrices(matrix1, matrix2):
+    inverse_matrix2 = matrix_inverse(matrix2)
+    if inverse_matrix2 is not None:
+        result = multiply_matrices(matrix1, inverse_matrix2)
+        return result
+    else:
+        return None
+
+def matrix_trace(matrix):
+    return np.trace(matrix)
+
+# Menu
+while True:
+    print("\nMatrix Operations Menu:")
+    print("1. Add Matrices")
+    print("2. Subtract Matrices")
+    print("3. Multiply Matrices")
+    print("4. Divide Matrices")
+    print("5. Transpose Matrix")
+    print("6. Trace of a Matrix")
+    print("7. Exit")
+
+    choice = int(input("Enter your choice (1-7): "))
+
+    if choice == 1:
+        rows = int(input("Enter the number of rows: "))
+        cols = int(input("Enter the number of columns: "))
+        matrix1 = matrix_input(rows, cols)
+        matrix2 = matrix_input(rows, cols)
+        result = add_matrices(matrix1, matrix2)
+        print("\nResultant Matrix (Sum):")
+        print_matrix(result)
+
+    elif choice == 2:
+        rows = int(input("Enter the number of rows: "))
+        cols = int(input("Enter the number of columns: "))
+        matrix1 = matrix_input(rows, cols)
+        matrix2 = matrix_input(rows, cols)
+        result = subtract_matrices(matrix1, matrix2)
+        print("\nResultant Matrix (Difference):")
+        print_matrix(result)
+
+    elif choice == 3:
+        rows1 = int(input("Enter the number of rows for Matrix 1: "))
+        cols1 = int(input("Enter the number of columns for Matrix 1: "))
+        rows2 = int(input("Enter the number of rows for Matrix 2: "))
+        cols2 = int(input("Enter the number of columns for Matrix 2: "))
+
+        if cols1 != rows2:
+            print("Invalid operation. Number of columns in Matrix 1 must be equal to the number of rows in Matrix 2.")
+        else:
+            matrix1 = matrix_input(rows1, cols1)
+            matrix2 = matrix_input(rows2, cols2)
+            result = multiply_matrices(matrix1, matrix2)
+            print("\nResultant Matrix (Product):")
+            print_matrix(result)
+
+    elif choice == 4:
+        rows1 = int(input("Enter the number of rows for Matrix 1: "))
+        cols1 = int(input("Enter the number of columns for Matrix 1: "))
+        rows2 = int(input("Enter the number of rows for Matrix 2: "))
+        cols2 = int(input("Enter the number of columns for Matrix 2: "))
+
+        if cols1 != rows2:
+            print("Invalid operation. Number of columns in Matrix 1 must be equal to the number of rows in Matrix 2.")
+        else:
+            matrix1 = matrix_input(rows1, cols1)
+            matrix2 = matrix_input(rows2, cols2)
+            result = divide_matrices(matrix1, matrix2)
+            if result is not None:
+                print("\nResultant Matrix (Division):")
+                print_matrix(result)
+
+    elif choice == 5:
+        rows = int(input("Enter the number of rows: "))
+        cols = int(input("Enter the number of columns: "))
+        matrix = matrix_input(rows, cols)
+        result = transpose_matrix(matrix)
+        print("\nTransposed Matrix:")
+        print_matrix(result)
+
+    elif choice == 6:
+        rows = int(input("Enter the number of rows: "))
+        cols = int(input("Enter the number of columns: "))
+        matrix = matrix_input(rows, cols)
+        result = matrix_trace(matrix)
+        print("\nTrace of Matrix:", result)
+
+    elif choice == 7:
+        print("Exiting the program.")
+        break
+
+    else:
+        print("Invalid choice. Please enter a number between 1 and 7.")

@@ -1,0 +1,23 @@
+def is_arithmetic_progression(sequence):
+    # Check if the difference between consecutive elements is constant
+    for i in range(1, len(sequence) - 1):
+        if sequence[i + 1] - sequence[i] != sequence[i] - sequence[i - 1]:
+            return False
+    
+    return True
+
+# Example usage
+try:
+    # Get user input for the sequence
+    input_sequence = input("Enter the sequence separated by spaces: ")
+    
+    # Convert the input to a list of integers
+    sequence = list(map(int, input_sequence.split()))
+    
+    # Check if the sequence is an AP
+    if is_arithmetic_progression(sequence):
+        print("The given sequence is an Arithmetic Progression (AP).")
+    else:
+        print("The given sequence is not an Arithmetic Progression (AP).")
+except ValueError:
+    print("Invalid input. Please enter a sequence of integers separated by spaces.")

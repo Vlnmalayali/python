@@ -1,0 +1,52 @@
+def calculate_sgpa(grades):
+    total_credit_hours = 0
+    total_points = 0
+
+    for grade, credit_hours in grades:
+        points = grade_to_points(grade)
+        total_credit_hours += credit_hours
+        total_points += points * credit_hours
+
+    sgpa = total_points / total_credit_hours
+    return round(sgpa,2)
+
+def grade_to_points(grade):
+    grade_mapping = {'A+': 10, 'A': 9, 'B+': 8, 'B': 7, 'C+': 6,'F': 0.0}
+    return grade_mapping.get(grade.upper(), 0.0)
+
+def get_semester_grades(semester_number):
+    semester_grades = []
+    num_courses = int(input(f"Enter the number of courses for Semester {semester_number}: "))
+
+    for i in range(num_courses):
+        grade = input(f"Enter the grade for Course {i + 1}: ")
+        credit_hours = int(input(f"Enter the credit hours for Course {i + 1}: "))
+        semester_grades.append((grade, credit_hours))
+
+    return semester_grades
+
+def calculate_cgpa(semesters):
+    total_credit_hours = 0
+    total_points = 0
+
+    for semester_grades in semesters:
+        sgpa = calculate_sgpa(semester_grades)
+        total_credit_hours += sum(credit_hours for _, credit_hours in semester_grades)
+        total_points += sgpa * sum(credit_hours for _, credit_hours in semester_grades)
+
+    cgpa = total_points / total_credit_hours
+    return cgpa
+
+# Example usage
+num_semesters = 8
+semester_grades_list = []
+
+for i in range(1, num_semesters + 1):
+    semester_grades = get_semester_grades(i)
+    semester_grades_list.append(semester_grades)
+
+sgpa_first_semester = calculate_sgpa(semester_grades_list[0])
+print(f"\nSGPA for the first semester: {sgpa_first_semester:.2f}")
+
+cgpa_all_semesters = calculate_cgpa(semester_grades_list)
+print(f"CGPA for all eight semesters: {cgpa_all_semesters:.2f}")
